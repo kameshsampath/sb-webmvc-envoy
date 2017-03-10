@@ -5,7 +5,7 @@ data:
     # spring application properties file
     welcome = Hello from Kubernetes ConfigMap!!!
     dummy = some value
-  config.json: |
+  config.json: |+
     {
       "listeners": [
         {
@@ -15,18 +15,24 @@ data:
               "type": "read",
               "name": "http_connection_manager",
               "config": {
+                "access_log": [
+                   {
+                      "path": "/dev/stdout"
+                   }
+                ],
                 "codec_type": "auto",
                 "stat_prefix": "ingress_http",
+
                 "route_config": {
                   "virtual_hosts": [
                     {
-                      "name": "sb_qs_service",
+                      "name": "sb_webmvc_service",
                       "domains": ["*"],
                       "routes": [
                         {
                           "timeout_ms": 0,
-                          "prefix": "/service",
-                          "cluster": "svc_${project.artifactId}"
+                          "prefix": "/",
+                          "cluster": "local_service"
                         }
                       ]
                     }
@@ -51,13 +57,13 @@ data:
       "cluster_manager": {
         "clusters": [
           {
-            "name": "svc_${project.artifactId}",
+            "name": "local_service",
             "connect_timeout_ms": 250,
             "type": "strict_dns",
             "lb_type": "round_robin",
             "hosts": [
               {
-                "url": "tcp://${project.artifactId}:8080"
+                "url": "tcp://127.0.0.1:8080"
               }
             ]
           }
