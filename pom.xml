@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>msa-demos</artifactId>
+    <groupId>org.workspace7.msa</groupId>
+    <version>1.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>sb-webmvc-envoy</artifactId>
+  <name>fabric8::QuickStart:: SpringBoot WebMVC Enovy</name>
+  <description>
+    A simple demo application, extension to https://github.com/fabric8-quickstarts/spring-boot-webmvc
+    that uses lyft/envoy
+  </description>
+
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <!-- dependency versions -->
+    <fabric8.version>2.2.192</fabric8.version>
+    <spring-boot.version>1.5.1.RELEASE</spring-boot.version>
+
+    <!-- maven plugin versions -->
+    <fabric8.maven.plugin.version>3.2.28</fabric8.maven.plugin.version>
+    <exec-maven-plugin.version>1.5.0</exec-maven-plugin.version>
+    <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
+    <maven-shade-plugin.version>2.3</maven-shade-plugin.version>
+    <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- import fabric8 platform bom first -->
+      <dependency>
+        <groupId>io.fabric8</groupId>
+        <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
+        <version>${fabric8.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+
+    <!-- spring-boot -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <configuration>
+          <mainClass>io.fabric8.quickstarts.springbootmvc.App</mainClass>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>fabric8-maven-plugin</artifactId>
+        <version>${fabric8.maven.plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>resource</goal>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

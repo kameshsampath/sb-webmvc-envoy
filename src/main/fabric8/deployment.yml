@@ -1,0 +1,45 @@
+metadata:
+  annotations:
+    configmap.fabric8.io/update-on-change: ${project.artifactId}
+spec:
+  replicas: 1
+  template:
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: ${project.artifactId}
+            items:
+            - key: application.properties
+              path: application.properties
+        - name: envoy-config
+          configMap:
+             name: ${project.artifactId}
+             items:
+             - key: config.json
+               path: config.json
+      containers:
+        - name: ${project.artifactId}
+          volumeMounts:
+            - name: config
+              mountPath: /deployments/config
+        - name: envoy-${project.artifactId}
+          image: kameshsampath/envoy
+          ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+          - containerPort: 8001
+            name: prometheus
+            protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+              scheme: HTTP
+            initialDelaySeconds: 180
+          volumeMounts:
+            - name: envoy-config
+              mountPath: /etc/envoy
+
+
