@@ -24,20 +24,27 @@ spec:
             - name: config
               mountPath: /deployments/config
         - name: envoy-${project.artifactId}
-          image: kameshsampath/envoy
+          image: kameshsampath/envoy:${project.version}
+          imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 80
-            name: http
+            name: http2
             protocol: TCP
           - containerPort: 8001
-            name: prometheus
+            name: admin
             protocol: TCP
           livenessProbe:
             httpGet:
-              path: /health
+              path: /server_info
               port: 8001
               scheme: HTTP
             initialDelaySeconds: 180
+          readinessProbe:
+            httpGet:
+              path: /server_info
+              port: 8001
+              scheme: HTTP
+            initialDelaySeconds: 10
           volumeMounts:
             - name: envoy-config
               mountPath: /etc/envoy
