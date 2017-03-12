@@ -27,22 +27,22 @@ spec:
           image: kameshsampath/envoy:${project.version}
           imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: 80
+          - containerPort: 9001
             name: http2
             protocol: TCP
-          - containerPort: 8001
+          - containerPort: 9901
             name: admin
             protocol: TCP
           livenessProbe:
             httpGet:
               path: /server_info
-              port: 8001
+              port: 9901
               scheme: HTTP
             initialDelaySeconds: 180
           readinessProbe:
             httpGet:
               path: /server_info
-              port: 8001
+              port: 9901
               scheme: HTTP
             initialDelaySeconds: 10
           volumeMounts:
