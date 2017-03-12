@@ -27,7 +27,7 @@ spec:
           image: kameshsampath/envoy:${project.version}
           imagePullPolicy: IfNotPresent
           ports:
-          - containerPort: 80
+          - containerPort: 8080
             name: http2
             protocol: TCP
           - containerPort: 8001

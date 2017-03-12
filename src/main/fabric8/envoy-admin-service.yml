@@ -12,6 +12,6 @@ spec:
     protocol: TCP
     targetPort: 8001
   selector:
-    project: sb-webmvc-envoy
-    provider: fabric8
+    project: ${prroject.artifactId}
+    provider: redhat-developers
     group: org.workspace7.msa
