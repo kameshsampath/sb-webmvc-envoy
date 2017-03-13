@@ -14,8 +14,7 @@ public class MyRoute extends RouteBuilder {
 
         from("timer:foo?period=10000")
                 .setHeader("Host", constant("ipaddress-service"))
-                .to("log:headers?showAll=true")
-                .to("http4://localhost:9001/?preserveHostHeader=true")
+                .to("http4://{{service:proxy}}/?preserveHostHeader=true")
                 .log("${body}");
     }
 }

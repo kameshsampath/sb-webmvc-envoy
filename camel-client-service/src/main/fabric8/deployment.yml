@@ -23,6 +23,11 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /deployments/config
+          env:
+            - name: PROXY_SERVICE_HOST
+              value: "localhost"
+            - name: PROXY_SERVICE_PORT
+              value: "9001"
         - name: envoy-${project.artifactId}
           image: kameshsampath/envoy:${project.version}
           imagePullPolicy: IfNotPresent
