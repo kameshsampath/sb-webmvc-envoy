@@ -14,6 +14,7 @@ data:
           "config": {
             "codec_type": "auto",
             "stat_prefix": "egress_http",
+            "add_user_agent": true,
             "route_config": {
               "virtual_hosts": [
                 {
